@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "webdriverio": "^9.10.1"
+  },
+  "name": "appium2.0",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Latest Appium Client Code including Gestures",
+  "main": "main.mjs",
+  "devDependencies": {
+    "@types/chai": "^5.0.1",
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@wdio/appium-service": "^9.10.1",
+    "@wdio/types": "^9.10.1",
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "mocha",
+    "test2": "mocha test2.js",
+    "test3": "mocha test3.js",
+    "doom": "mocha doom.js",
+    "doom2": "mocha doom2.js",
+    "doom3": "mocha doom3.js"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

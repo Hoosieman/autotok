@@ -1,0 +1,4 @@
+# Ignore .gitattributes and .gitkeep files in node_modules
+node_modules/*/.gitattributes -filter
+node_modules/*/.gitkeep -filter
+

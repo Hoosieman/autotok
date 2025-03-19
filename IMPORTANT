@@ -1,0 +1,4 @@
+coleto@coles-mbp-5 WebDriverAgent % xcodebuild -project WebDriverAgent.xcodeproj \
+           -scheme WebDriverAgentRunner \
+           -destination 'id=00008120-0009049402D0A01E' \
+           test
