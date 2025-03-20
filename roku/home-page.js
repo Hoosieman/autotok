@@ -1,16 +1,16 @@
 import { remote } from 'webdriverio';
 import { assert } from 'chai';
-import { comments } from './comments.js'; // Import the comments array
-import { followMe } from './follow-for-follow.js'; // Import the follow array
+import { comments } from '../comments.js'; // Import the comments array
+import { followMe } from '../follow-for-follow.js'; // Import the follow array
 
 const capabilities = {
     'appium:automationName': 'UiAutomator2',
-    'appium:deviceName': 'amuthan-test-device2',
+    'appium:deviceName': 'amuthan-test-device',
     'appium:appPackage': 'com.zhiliaoapp.musically',
     'appium:appActivity': 'com.ss.android.ugc.aweme.main.MainActivity',
     'appium:platformName': 'Android',
     'appium:noReset': true,
-    "appium:udid": "R5CXC0LYQ5F",
+    "appium:udid": "R58N932FBKY",
     'appium:newCommandTimeout': 120,
     'appium:waitForIdleTimeout': 0, // Disable waiting for idle
     'appium:skipUnlock': true, // Speeds up element finding
@@ -19,7 +19,7 @@ const capabilities = {
 
 const wdOpts = {
     hostname: '127.0.0.1',
-    port: 4724,
+    port: 4723,
     logLevel: 'info',
     waitforTimeout: 30000,
     capabilities,
@@ -49,7 +49,7 @@ class ScrollHelper {
             actions: [
                 { type: 'pointerMove', duration: 0, x: startScrollX, y: startScrollY },  // Move to the start point near the bottom immediately (no pause here)
                 { type: 'pointerDown', button: 0 },  // Press down without holding
-                { type: 'pointerMove', duration: 400, x: startScrollX, y: randomEndScrollY },  // Move upwards to the random end point (faster swipe)
+                { type: 'pointerMove', duration: 500, x: startScrollX, y: randomEndScrollY },  // Move upwards to the random end point (faster swipe)
                 { type: 'pointerUp', button: 0 }  // Lift up the finger
             ]
         }]);
@@ -63,7 +63,7 @@ class ScrollHelper {
         
         // Starting point is at the horizontal center of the screen and 85% down the height, but with slight offset to avoid the share button
         const startScrollX = size.width / 2;
-        const startScrollY = size.height * 0.75;  // Start slightly higher to avoid bottom buttons (adjusted for safety)
+        const startScrollY = size.height * 0.85;  // Start slightly higher to avoid bottom buttons (adjusted for safety)
         
         // Random end point between 10% to 20% of the screen height (longer distance)
         const randomEndScrollY = Math.min(size.height * (0.1 + Math.random() * 0.1), size.height * 0.2);  // Swipe further (upwards to 20% of screen height)
@@ -76,11 +76,12 @@ class ScrollHelper {
             actions: [
                 { type: 'pointerMove', duration: 0, x: startScrollX, y: startScrollY },  // Move to the start point near the bottom immediately (no pause here)
                 { type: 'pointerDown', button: 0 },  // Press down without holding
-                { type: 'pointerMove', duration: 300, x: startScrollX, y: randomEndScrollY },  // Move upwards to the new end point (faster swipe with a shorter duration)
+                { type: 'pointerMove', duration: 400, x: startScrollX, y: randomEndScrollY },  // Move upwards to the new end point (faster swipe with a shorter duration)
                 { type: 'pointerUp', button: 0 }  // Lift up the finger
             ]
         }]);
     }
+    
     
     
     
@@ -504,8 +505,8 @@ class CommentClickHelper {
         await noCommentsButton.waitForDisplayed({ timeout: 2000 });
 
         console.log('There are NO comments');
-        
-        
+       
+
     }
 
     // Click the share button, wait a random time (1-2 seconds), and then click the copy link button
@@ -556,9 +557,9 @@ class CommentClickHelper {
 
     
     
-    
 
 }
+
 
 
 
@@ -667,6 +668,10 @@ describe('Engagement', function() {
                 await scrollHelper.nextPostSwipe();
                 continue;
             }
+
+            
+
+
             
         
             const targetTextElement = await driver.$('(//android.view.ViewGroup[@resource-id="com.zhiliaoapp.musically:id/d23"])[2]//android.widget.Button[@resource-id="com.zhiliaoapp.musically:id/title"]');
@@ -707,7 +712,7 @@ describe('Engagement', function() {
                     // Follow a person each iteration
                     //await followClickHelper.randomFollow();
 
-                    //await followClickHelper.followForFollow();
+                    await followClickHelper.followForFollow();
 
                     // Possibly message the followed person to follow back
                 } catch (error) {

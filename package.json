@@ -18,12 +18,21 @@
   },
   "scripts": {
     "start": "electron .",
-    "test": "mocha",
-    "test2": "mocha test2.js",
-    "test3": "mocha test3.js",
-    "doom": "mocha doom.js",
-    "doom2": "mocha doom2.js",
-    "doom3": "mocha doom3.js"
+    "roku-home-page": "mocha roku/home-page.js",
+    "roku-shows-page": "mocha roku/shows-page.js",
+    "roku-player": "mocha roku/player.js",
+    "android-home-page": "mocha android/home-page.js",
+    "android-shows-page": "mocha android/shows-page.js",
+    "android-player": "mocha android/player.js",
+    "ios-home-page": "mocha ios/home-page.js",
+    "ios-shows-page": "mocha ios/shows-page.js",
+    "ios-player": "mocha ios/player.js",
+    "ott-home-page": "mocha ott/home-page.js",
+    "ott-shows-page": "mocha ott/shows-page.js",
+    "ott-player": "mocha ott/player.js",
+    "web-home-page": "mocha web/home-page.js",
+    "web-shows-page": "mocha web/shows-page.js",
+    "web-player": "mocha web/player.js"
 
   },
   "keywords": [],

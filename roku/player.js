@@ -1,16 +1,16 @@
 import { remote } from 'webdriverio';
 import { assert } from 'chai';
-import { comments } from './comments.js'; // Import the comments array
-import { followMe } from './follow-for-follow.js'; // Import the follow array
+import { comments } from '../comments.js'; // Import the comments array
+import { followMe } from '../follow-for-follow.js'; // Import the follow array
 
 const capabilities = {
     'appium:automationName': 'UiAutomator2',
-    'appium:deviceName': 'amuthan-test-device',
+    'appium:deviceName': 'amuthan-test-device2',
     'appium:appPackage': 'com.zhiliaoapp.musically',
     'appium:appActivity': 'com.ss.android.ugc.aweme.main.MainActivity',
     'appium:platformName': 'Android',
     'appium:noReset': true,
-    "appium:udid": "R58N932FBKY",
+    "appium:udid": "R5CXC0LY81P",
     'appium:newCommandTimeout': 120,
     'appium:waitForIdleTimeout': 0, // Disable waiting for idle
     'appium:skipUnlock': true, // Speeds up element finding
@@ -19,7 +19,7 @@ const capabilities = {
 
 const wdOpts = {
     hostname: '127.0.0.1',
-    port: 4723,
+    port: 4725,
     logLevel: 'info',
     waitforTimeout: 30000,
     capabilities,
@@ -49,7 +49,7 @@ class ScrollHelper {
             actions: [
                 { type: 'pointerMove', duration: 0, x: startScrollX, y: startScrollY },  // Move to the start point near the bottom immediately (no pause here)
                 { type: 'pointerDown', button: 0 },  // Press down without holding
-                { type: 'pointerMove', duration: 500, x: startScrollX, y: randomEndScrollY },  // Move upwards to the random end point (faster swipe)
+                { type: 'pointerMove', duration: 400, x: startScrollX, y: randomEndScrollY },  // Move upwards to the random end point (faster swipe)
                 { type: 'pointerUp', button: 0 }  // Lift up the finger
             ]
         }]);
@@ -76,12 +76,11 @@ class ScrollHelper {
             actions: [
                 { type: 'pointerMove', duration: 0, x: startScrollX, y: startScrollY },  // Move to the start point near the bottom immediately (no pause here)
                 { type: 'pointerDown', button: 0 },  // Press down without holding
-                { type: 'pointerMove', duration: 400, x: startScrollX, y: randomEndScrollY },  // Move upwards to the new end point (faster swipe with a shorter duration)
+                { type: 'pointerMove', duration: 300, x: startScrollX, y: randomEndScrollY },  // Move upwards to the new end point (faster swipe with a shorter duration)
                 { type: 'pointerUp', button: 0 }  // Lift up the finger
             ]
         }]);
     }
-    
     
     
     
@@ -498,15 +497,15 @@ class CommentClickHelper {
 
     async isThereNoComments() {
 
-        
         // Find the share button and click it
         const noCommentsXPath = `//android.widget.Button[( @content-desc="Read or add comments. 0 comments" or @content-desc="Read or add comments. 1 comments" or @content-desc="Read or add comments. 2 comments" )]`;
         const noCommentsButton = await this.driver.$(noCommentsXPath);
-        await noCommentsButton.waitForDisplayed({ timeout: 2000 });
+        await noCommentsButton.waitForDisplayed({ timeout: 1000 });
 
-        console.log('There are NO comments');
+        console.log('There are NO, comments');
        
 
+        
     }
 
     // Click the share button, wait a random time (1-2 seconds), and then click the copy link button
@@ -670,9 +669,6 @@ describe('Engagement', function() {
             }
 
             
-
-
-            
         
             const targetTextElement = await driver.$('(//android.view.ViewGroup[@resource-id="com.zhiliaoapp.musically:id/d23"])[2]//android.widget.Button[@resource-id="com.zhiliaoapp.musically:id/title"]');
 
@@ -712,7 +708,7 @@ describe('Engagement', function() {
                     // Follow a person each iteration
                     //await followClickHelper.randomFollow();
 
-                    await followClickHelper.followForFollow();
+                    //await followClickHelper.followForFollow();
 
                     // Possibly message the followed person to follow back
                 } catch (error) {

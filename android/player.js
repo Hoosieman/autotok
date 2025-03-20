@@ -1,7 +1,7 @@
 import { remote } from 'webdriverio';
 import { assert } from 'chai';
-import { comments } from './comments.js'; // Import the comments array
-import { followMe } from './follow-for-follow.js'; // Import the follow array
+import { comments } from '../comments.js'; // Import the comments array
+import { followMe } from '../follow-for-follow.js'; // Import the follow array
 
 const capabilities = {
     'appium:automationName': 'UiAutomator2',

@@ -3,267 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electron Test Runner</title>
+    <title>BYUtv Automation</title>
     <style>
+        :root {
+            --byutv-black: #000000;
+            --byutv-dark-gray: #121212;
+            --byutv-medium-gray: #1e1e1e;
+            --byutv-light-gray: #2a2a2a;
+            --byutv-blue: #00a7e1;
+            --byutv-blue-glow: rgba(0, 167, 225, 0.4);
+            --byutv-text: #ffffff;
+            --byutv-text-secondary: #a0a0a0;
+            --byutv-success: #4CAF50;
+            --byutv-error: #f44336;
+            --byutv-warning: #ff9800;
+            --byutv-border-radius: 4px;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 0;
+            background-color: var(--byutv-black);
+            color: var(--byutv-text);
         }
+
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--byutv-light-gray);
+        }
+
+        .logo {
+            height: 80px;
+            margin-right: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+            margin: 0;
+        }
+
         .test-section {
             margin-bottom: 30px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: white;
+            border-radius: var(--byutv-border-radius);
+            padding: 20px;
+            background-color: var(--byutv-dark-gray);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .test-section h2 {
             margin-top: 0;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
+            font-size: 18px;
+            font-weight: 500;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--byutv-light-gray);
         }
+
         .button-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin: 10px 0;
+            gap: 15px;
+            margin: 15px 0;
         }
+
         .button-group {
             display: flex;
             gap: 10px;
             margin-bottom: 10px;
         }
-        .run-button {
-            background-color: #4CAF50;
+
+        button {
             border: none;
-            color: white;
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
+
+        .run-button {
+            background-color: var(--byutv-blue);
+            color: white;
+            box-shadow: 0 0 10px var(--byutv-blue-glow);
+        }
+
         .run-button:hover {
-            background-color: #45a049;
+            background-color: #0090c8;
+            box-shadow: 0 0 15px var(--byutv-blue-glow);
         }
+
         .run-button:disabled {
-            background-color: #cccccc;
+            background-color: var(--byutv-light-gray);
+            color: var(--byutv-text-secondary);
+            box-shadow: none;
             cursor: not-allowed;
         }
+
         .stop-button {
-            background-color: #f44336;
-            border: none;
+            background-color: var(--byutv-error);
             color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
         }
+
         .stop-button:hover {
             background-color: #d32f2f;
         }
+
         .stop-button:disabled {
-            background-color: #ffcdd2;
+            background-color: #5a2d2d;
             cursor: not-allowed;
         }
+
         .appium-button {
-            background-color: #2196F3;
-            border: none;
+            background-color: var(--byutv-light-gray);
             color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
         }
+
         .appium-button:hover {
-            background-color: #0b7dda;
+            background-color: #3a3a3a;
         }
+
         .appium-button:disabled {
-            background-color: #bbdefb;
+            background-color: #252525;
+            color: var(--byutv-text-secondary);
             cursor: not-allowed;
         }
+
         .logs-container {
-            background-color: #1e1e1e;
+            background-color: var(--byutv-medium-gray);
             color: #f0f0f0;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: var(--byutv-border-radius);
             height: 300px;
             overflow-y: auto;
+            overflow-x: hidden;
             font-family: monospace;
-            margin-top: 10px;
+            margin-top: 15px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            word-break: break-all;
+            border: 1px solid var(--byutv-light-gray);
         }
+
         .status {
             margin-top: 10px;
-            font-weight: bold;
+            font-weight: 500;
+            font-size: 14px;
         }
+
         .running {
-            color: #2196F3;
+            color: var(--byutv-blue);
         }
+
         .success {
-            color: #4CAF50;
+            color: var(--byutv-success);
         }
+
         .error {
-            color: #f44336;
+            color: var(--byutv-error);
         }
+
         .section-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .appium-status {
-            font-size: 14px;
-            padding: 5px 10px;
-            border-radius: 4px;
-            background-color: #f5f5f5;
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background-color: var(--byutv-medium-gray);
         }
+
         .appium-running {
-            background-color: #e8f5e9;
-            color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--byutv-success);
         }
+
         .appium-stopped {
-            background-color: #ffebee;
-            color: #f44336;
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--byutv-error);
         }
+
         /* Tab styles */
         .tabs {
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--byutv-light-gray);
+            overflow-x: auto;
+            scrollbar-width: none;
         }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
         .tab {
-            padding: 10px 20px;
+            padding: 12px 24px;
             cursor: pointer;
-            background-color: #f1f1f1;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            margin-right: 5px;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
+            background-color: transparent;
+            color: var(--byutv-text-secondary);
+            position: relative;
+            font-weight: 500;
+            transition: color 0.2s ease;
         }
+
+        .tab:hover {
+            color: var(--byutv-text);
+        }
+
         .tab.active {
-            background-color: white;
-            border-bottom: 1px solid white;
-            margin-bottom: -1px;
-            font-weight: bold;
+            color: var(--byutv-blue);
+            font-weight: 600;
         }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--byutv-blue);
+            box-shadow: 0 0 8px var(--byutv-blue-glow);
+        }
+
         .tab-content {
             display: none;
         }
+
         .tab-content.active {
             display: block;
         }
+
         .home-content {
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            padding: 30px;
+            background-color: var(--byutv-dark-gray);
+            border-radius: var(--byutv-border-radius);
         }
+
+        .home-content h2 {
+            color: var(--byutv-blue);
+            margin-top: 0;
+        }
+
         /* Device connection status */
         .device-status {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: var(--byutv-border-radius);
             font-size: 14px;
             font-weight: 500;
         }
+
         .device-connected {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--byutv-success);
+            border: 1px solid rgba(76, 175, 80, 0.3);
         }
+
         .device-disconnected {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--byutv-error);
+            border: 1px solid rgba(244, 67, 54, 0.3);
         }
+
         .device-status-icon {
-            margin-right: 8px;
-            width: 12px;
-            height: 12px;
+            margin-right: 10px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
+
         .device-connected .device-status-icon {
-            background-color: #4caf50;
+            background-color: var(--byutv-success);
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
         }
+
         .device-disconnected .device-status-icon {
-            background-color: #f44336;
+            background-color: var(--byutv-error);
+            box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
         }
+
         .refresh-button {
-            background-color: #e0e0e0;
+            background-color: var(--byutv-light-gray);
             border: none;
-            color: #424242;
+            color: var(--byutv-text);
             padding: 5px 10px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 12px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 12px;
             margin-left: auto;
         }
+
         .refresh-button:hover {
-            background-color: #bdbdbd;
+            background-color: #3a3a3a;
+        }
+
+        /* Android device mirror styles */
+        .device-mirror-container {
+            display: flex;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border-radius: var(--byutv-border-radius);
+            overflow: hidden;
+            background-color: var(--byutv-medium-gray);
+        }
+
+        .device-mirror {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .device-frame {
+            position: relative;
+            width: 240px;
+            height: 480px;
+            border: 10px solid #333;
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: #000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .device-screen {
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .device-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .device-info {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--byutv-text-secondary);
+        }
+
+        .screenshot-button {
+            margin-top: 10px;
+            background-color: var(--byutv-blue);
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 12px;
+            box-shadow: 0 0 8px var(--byutv-blue-glow);
+        }
+
+        .screenshot-button:hover {
+            background-color: #0090c8;
+            box-shadow: 0 0 12px var(--byutv-blue-glow);
+        }
+        
+        /* New layout styles for side-by-side view */
+        .content-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+        
+        .logs-column {
+            flex: 1;
+            min-width: 0;
+            max-width: calc(100% - 315px);
+        }
+        
+        .device-column {
+            width: 300px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .android-device-mirror {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Electron Test Runner</h1>
+        <div class="header">
+            <img src="./resources/images/logo.png" alt="Logo" class="logo">
+            <h1>BYUtv Automation</h1>
+        </div>
         
         <div class="tabs">
             <div class="tab" data-tab="home">Home</div>
-            <div class="tab" data-tab="engage">Engage</div>
-            <div class="tab" data-tab="doom">Doom</div>
+            <div class="tab" data-tab="roku">Roku</div>
+            <div class="tab" data-tab="android">Android</div>
+            <div class="tab" data-tab="ios">iOS</div>
+            <div class="tab" data-tab="ott">OTT</div>
+            <div class="tab" data-tab="web">Web</div>
         </div>
         
         <div id="home" class="tab-content">
             <div class="home-content">
-                <h2>Welcome to the Test Runner</h2>
-                <p>This application allows you to run and manage automated tests.</p>
-                <p>Click on the "Engage" tab to start running tests or the "Doom" tab to run Doom scripts.</p>
+                <h2>Welcome to the BYUtv test automation tool</h2>
+                <p>This application allows you to run and manage automated tests for BYUtv clients.</p>
+                <p>Click on any tab to start running tests for that client.</p>
             </div>
         </div>
         
-        <div id="engage" class="tab-content">
+        <!-- Roku Tab -->
+        <div id="roku" class="tab-content">
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Test 1</h2>
+                    <h2>Roku Home Page</h2>
                     <div id="appiumStatus1" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="deviceStatus1" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Roku Device: Not connected</span>
                     <button id="refreshDevice1" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startAppium1Button" class="appium-button">Start Appium</button>
-                        <button id="stopAppium1Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runTest1Button" class="run-button">Run Test 1</button>
-                        <button id="stopTest1Button" class="stop-button" disabled>Stop Test 1</button>
-                    </div>
+                    <button id="toggleAppium1Button" class="appium-button">Start Appium</button>
+                    <button id="toggleTest1Button" class="run-button">Run Roku Home Page</button>
                 </div>
                 
                 <div id="status1" class="status"></div>
@@ -272,26 +471,19 @@
             
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Test 2</h2>
+                    <h2>Roku Shows Page</h2>
                     <div id="appiumStatus2" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="deviceStatus2" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Roku Device: Not connected</span>
                     <button id="refreshDevice2" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startAppium2Button" class="appium-button">Start Appium</button>
-                        <button id="stopAppium2Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runTest2Button" class="run-button">Run Test 2</button>
-                        <button id="stopTest2Button" class="stop-button" disabled>Stop Test 2</button>
-                    </div>
+                    <button id="toggleAppium2Button" class="appium-button">Start Appium</button>
+                    <button id="toggleTest2Button" class="run-button">Run Roku Shows Page</button>
                 </div>
                 
                 <div id="status2" class="status"></div>
@@ -300,26 +492,19 @@
             
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Test 3</h2>
+                    <h2>Roku Player</h2>
                     <div id="appiumStatus3" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="deviceStatus3" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Roku Device: Not connected</span>
                     <button id="refreshDevice3" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startAppium3Button" class="appium-button">Start Appium</button>
-                        <button id="stopAppium3Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runTest3Button" class="run-button">Run Test 3</button>
-                        <button id="stopTest3Button" class="stop-button" disabled>Stop Test 3</button>
-                    </div>
+                    <button id="toggleAppium3Button" class="appium-button">Start Appium</button>
+                    <button id="toggleTest3Button" class="run-button">Run Roku Player</button>
                 </div>
                 
                 <div id="status3" class="status"></div>
@@ -327,92 +512,328 @@
             </div>
         </div>
         
-        <div id="doom" class="tab-content">
+        <!-- Android Tab -->
+        <div id="android" class="tab-content">
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Doom 1</h2>
+                    <h2>Android Home Page</h2>
                     <div id="doomAppiumStatus1" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="doomDeviceStatus1" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Android Device: Not connected</span>
                     <button id="refreshDoomDevice1" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startDoomAppium1Button" class="appium-button">Start Appium</button>
-                        <button id="stopDoomAppium1Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runDoom1Button" class="run-button">Run Doom 1</button>
-                        <button id="stopDoom1Button" class="stop-button" disabled>Stop Doom 1</button>
-                    </div>
+                    <button id="toggleDoomAppium1Button" class="appium-button">Start Appium</button>
+                    <button id="toggleDoom1Button" class="run-button">Run Android Home Page</button>
                 </div>
                 
                 <div id="doomStatus1" class="status"></div>
-                <div id="doomLogsContainer1" class="logs-container"></div>
+                
+                <!-- New side-by-side layout -->
+                <div class="content-row">
+                    <div class="logs-column">
+                        <div id="doomLogsContainer1" class="logs-container"></div>
+                    </div>
+                    <div class="device-column">
+                        <div class="android-device-mirror">
+                            <div class="device-frame">
+                                <div id="doomDeviceScreen1" class="device-screen">
+                                    No device connected
+                                </div>
+                            </div>
+                            <div id="doomDeviceInfo1" class="device-info">
+                                Waiting for test to start...
+                            </div>
+                            <button id="doomScreenshotButton1" class="screenshot-button">Take Screenshot</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Doom 2</h2>
+                    <h2>Android Shows Page</h2>
                     <div id="doomAppiumStatus2" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="doomDeviceStatus2" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Android Device: Not connected</span>
                     <button id="refreshDoomDevice2" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startDoomAppium2Button" class="appium-button">Start Appium</button>
-                        <button id="stopDoomAppium2Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runDoom2Button" class="run-button">Run Doom 2</button>
-                        <button id="stopDoom2Button" class="stop-button" disabled>Stop Doom 2</button>
-                    </div>
+                    <button id="toggleDoomAppium2Button" class="appium-button">Start Appium</button>
+                    <button id="toggleDoom2Button" class="run-button">Run Android Shows Page</button>
                 </div>
                 
                 <div id="doomStatus2" class="status"></div>
-                <div id="doomLogsContainer2" class="logs-container"></div>
+                
+                <!-- New side-by-side layout -->
+                <div class="content-row">
+                    <div class="logs-column">
+                        <div id="doomLogsContainer2" class="logs-container"></div>
+                    </div>
+                    <div class="device-column">
+                        <div class="android-device-mirror">
+                            <div class="device-frame">
+                                <div id="doomDeviceScreen2" class="device-screen">
+                                    No device connected
+                                </div>
+                            </div>
+                            <div id="doomDeviceInfo2" class="device-info">
+                                Waiting for test to start...
+                            </div>
+                            <button id="doomScreenshotButton2" class="screenshot-button">Take Screenshot</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="test-section">
                 <div class="section-title">
-                    <h2>Doom 3</h2>
+                    <h2>Android Player</h2>
                     <div id="doomAppiumStatus3" class="appium-status appium-stopped">Appium: Stopped</div>
                 </div>
                 
                 <div id="doomDeviceStatus3" class="device-status device-disconnected">
                     <div class="device-status-icon"></div>
-                    <span>Device: Not connected</span>
+                    <span>Android Device: Not connected</span>
                     <button id="refreshDoomDevice3" class="refresh-button">Refresh</button>
                 </div>
                 
                 <div class="button-row">
-                    <div class="button-group">
-                        <button id="startDoomAppium3Button" class="appium-button">Start Appium</button>
-                        <button id="stopDoomAppium3Button" class="stop-button" disabled>Stop Appium</button>
-                    </div>
-                    
-                    <div class="button-group">
-                        <button id="runDoom3Button" class="run-button">Run Doom 3</button>
-                        <button id="stopDoom3Button" class="stop-button" disabled>Stop Doom 3</button>
-                    </div>
+                    <button id="toggleDoomAppium3Button" class="appium-button">Start Appium</button>
+                    <button id="toggleDoom3Button" class="run-button">Run Android Player</button>
                 </div>
                 
                 <div id="doomStatus3" class="status"></div>
-                <div id="doomLogsContainer3" class="logs-container"></div>
+                
+                <!-- New side-by-side layout -->
+                <div class="content-row">
+                    <div class="logs-column">
+                        <div id="doomLogsContainer3" class="logs-container"></div>
+                    </div>
+                    <div class="device-column">
+                        <div class="android-device-mirror">
+                            <div class="device-frame">
+                                <div id="doomDeviceScreen3" class="device-screen">
+                                    No device connected
+                                </div>
+                            </div>
+                            <div id="doomDeviceInfo3" class="device-info">
+                                Waiting for test to start...
+                            </div>
+                            <button id="doomScreenshotButton3" class="screenshot-button">Take Screenshot</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- iOS Tab -->
+        <div id="ios" class="tab-content">
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>iOS Home Page</h2>
+                    <div id="iosAppiumStatus1" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="iosDeviceStatus1" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>iOS Device: Not connected</span>
+                    <button id="refreshIosDevice1" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleIosAppium1Button" class="appium-button">Start Appium</button>
+                    <button id="toggleIos1Button" class="run-button">Run iOS Home Page</button>
+                </div>
+                
+                <div id="iosStatus1" class="status"></div>
+                <div id="iosLogsContainer1" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>iOS Shows Page</h2>
+                    <div id="iosAppiumStatus2" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="iosDeviceStatus2" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>iOS Device: Not connected</span>
+                    <button id="refreshIosDevice2" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleIosAppium2Button" class="appium-button">Start Appium</button>
+                    <button id="toggleIos2Button" class="run-button">Run iOS Shows Page</button>
+                </div>
+                
+                <div id="iosStatus2" class="status"></div>
+                <div id="iosLogsContainer2" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>iOS Player</h2>
+                    <div id="iosAppiumStatus3" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="iosDeviceStatus3" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>iOS Device: Not connected</span>
+                    <button id="refreshIosDevice3" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleIosAppium3Button" class="appium-button">Start Appium</button>
+                    <button id="toggleIos3Button" class="run-button">Run iOS Player</button>
+                </div>
+                
+                <div id="iosStatus3" class="status"></div>
+                <div id="iosLogsContainer3" class="logs-container"></div>
+            </div>
+        </div>
+
+        <!-- OTT Tab -->
+        <div id="ott" class="tab-content">
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>OTT Home Page</h2>
+                    <div id="ottAppiumStatus1" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="ottDeviceStatus1" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>OTT Device: Not connected</span>
+                    <button id="refreshOttDevice1" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleOttAppium1Button" class="appium-button">Start Appium</button>
+                    <button id="toggleOtt1Button" class="run-button">Run OTT Home Page</button>
+                </div>
+                
+                <div id="ottStatus1" class="status"></div>
+                <div id="ottLogsContainer1" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>OTT Shows Page</h2>
+                    <div id="ottAppiumStatus2" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="ottDeviceStatus2" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>OTT Device: Not connected</span>
+                    <button id="refreshOttDevice2" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleOttAppium2Button" class="appium-button">Start Appium</button>
+                    <button id="toggleOtt2Button" class="run-button">Run OTT Shows Page</button>
+                </div>
+                
+                <div id="ottStatus2" class="status"></div>
+                <div id="ottLogsContainer2" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>OTT Player</h2>
+                    <div id="ottAppiumStatus3" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="ottDeviceStatus3" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>OTT Device: Not connected</span>
+                    <button id="refreshOttDevice3" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleOttAppium3Button" class="appium-button">Start Appium</button>
+                    <button id="toggleOtt3Button" class="run-button">Run OTT Player</button>
+                </div>
+                
+                <div id="ottStatus3" class="status"></div>
+                <div id="ottLogsContainer3" class="logs-container"></div>
+            </div>
+        </div>
+
+        <!-- Web Tab -->
+        <div id="web" class="tab-content">
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>Web Home Page</h2>
+                    <div id="webAppiumStatus1" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="webDeviceStatus1" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>Web Browser: Not connected</span>
+                    <button id="refreshWebDevice1" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleWebAppium1Button" class="appium-button">Start Appium</button>
+                    <button id="toggleWeb1Button" class="run-button">Run Web Home Page</button>
+                </div>
+                
+                <div id="webStatus1" class="status"></div>
+                <div id="webLogsContainer1" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>Web Shows Page</h2>
+                    <div id="webAppiumStatus2" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="webDeviceStatus2" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>Web Browser: Not connected</span>
+                    <button id="refreshWebDevice2" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleWebAppium2Button" class="appium-button">Start Appium</button>
+                    <button id="toggleWeb2Button" class="run-button">Run Web Shows Page</button>
+                </div>
+                
+                <div id="webStatus2" class="status"></div>
+                <div id="webLogsContainer2" class="logs-container"></div>
+            </div>
+            
+            <div class="test-section">
+                <div class="section-title">
+                    <h2>Web Player</h2>
+                    <div id="webAppiumStatus3" class="appium-status appium-stopped">Appium: Stopped</div>
+                </div>
+                
+                <div id="webDeviceStatus3" class="device-status device-disconnected">
+                    <div class="device-status-icon"></div>
+                    <span>Web Browser: Not connected</span>
+                    <button id="refreshWebDevice3" class="refresh-button">Refresh</button>
+                </div>
+                
+                <div class="button-row">
+                    <button id="toggleWebAppium3Button" class="appium-button">Start Appium</button>
+                    <button id="toggleWeb3Button" class="run-button">Run Web Player</button>
+                </div>
+                
+                <div id="webStatus3" class="status"></div>
+                <div id="webLogsContainer3" class="logs-container"></div>
             </div>
         </div>
     </div>
     <script src="renderer.mjs"></script>
 </body>
 </html>
+

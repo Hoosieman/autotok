@@ -1,7 +1,7 @@
 import { remote } from 'webdriverio';
 import { assert } from 'chai';
-import { comments } from './comments.js'; // Import the comments array
-import { followMe } from './follow-for-follow.js'; // Import the follow array
+import { comments } from '../comments.js'; // Import the comments array
+import { followMe } from '../follow-for-follow.js'; // Import the follow array
 
 const capabilities = {
     'appium:automationName': 'UiAutomator2',
@@ -10,7 +10,7 @@ const capabilities = {
     'appium:appActivity': 'com.ss.android.ugc.aweme.main.MainActivity',
     'appium:platformName': 'Android',
     'appium:noReset': true,
-    "appium:udid": "R5CXC0LY81P",
+    "appium:udid": "R5CXC0LYQ5F",
     'appium:newCommandTimeout': 120,
     'appium:waitForIdleTimeout': 0, // Disable waiting for idle
     'appium:skipUnlock': true, // Speeds up element finding
@@ -19,7 +19,7 @@ const capabilities = {
 
 const wdOpts = {
     hostname: '127.0.0.1',
-    port: 4725,
+    port: 4724,
     logLevel: 'info',
     waitforTimeout: 30000,
     capabilities,
@@ -63,7 +63,7 @@ class ScrollHelper {
         
         // Starting point is at the horizontal center of the screen and 85% down the height, but with slight offset to avoid the share button
         const startScrollX = size.width / 2;
-        const startScrollY = size.height * 0.85;  // Start slightly higher to avoid bottom buttons (adjusted for safety)
+        const startScrollY = size.height * 0.75;  // Start slightly higher to avoid bottom buttons (adjusted for safety)
         
         // Random end point between 10% to 20% of the screen height (longer distance)
         const randomEndScrollY = Math.min(size.height * (0.1 + Math.random() * 0.1), size.height * 0.2);  // Swipe further (upwards to 20% of screen height)
@@ -497,14 +497,14 @@ class CommentClickHelper {
 
     async isThereNoComments() {
 
+        
         // Find the share button and click it
         const noCommentsXPath = `//android.widget.Button[( @content-desc="Read or add comments. 0 comments" or @content-desc="Read or add comments. 1 comments" or @content-desc="Read or add comments. 2 comments" )]`;
         const noCommentsButton = await this.driver.$(noCommentsXPath);
-        await noCommentsButton.waitForDisplayed({ timeout: 1000 });
+        await noCommentsButton.waitForDisplayed({ timeout: 2000 });
 
-        console.log('There are NO, comments');
-       
-
+        console.log('There are NO comments');
+        
         
     }
 
@@ -556,9 +556,9 @@ class CommentClickHelper {
 
     
     
+    
 
 }
-
 
 
 
@@ -667,7 +667,6 @@ describe('Engagement', function() {
                 await scrollHelper.nextPostSwipe();
                 continue;
             }
-
             
         
             const targetTextElement = await driver.$('(//android.view.ViewGroup[@resource-id="com.zhiliaoapp.musically:id/d23"])[2]//android.widget.Button[@resource-id="com.zhiliaoapp.musically:id/title"]');

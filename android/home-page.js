@@ -1,7 +1,7 @@
 import { remote } from 'webdriverio';
 import { assert } from 'chai';
-import { comments } from './comments.js'; // Import the comments array
-import { followMe } from './follow-for-follow.js'; // Import the follow array
+import { comments } from '../comments.js'; // Import the comments array
+import { followMe } from '../follow-for-follow.js'; // Import the follow array
 
 const capabilities = {
     'appium:automationName': 'UiAutomator2',
@@ -10,7 +10,7 @@ const capabilities = {
     'appium:appActivity': 'com.ss.android.ugc.aweme.main.MainActivity',
     'appium:platformName': 'Android',
     'appium:noReset': true,
-    "appium:udid": "R5CXC0LYQ5F",
+    "appium:udid": "R58N932FBKY",
     'appium:newCommandTimeout': 120,
     'appium:waitForIdleTimeout': 0, // Disable waiting for idle
     'appium:skipUnlock': true, // Speeds up element finding
@@ -19,7 +19,7 @@ const capabilities = {
 
 const wdOpts = {
     hostname: '127.0.0.1',
-    port: 4727,
+    port: 4726,
     logLevel: 'info',
     waitforTimeout: 30000,
     capabilities,
